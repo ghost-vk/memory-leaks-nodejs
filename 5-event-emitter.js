@@ -4,15 +4,17 @@ const {
   stopAnalytics
 } = require('./helpers')
 
+const { EventEmitter } = require('events')
+
 const memory = []
-let k = 0
+
+const ee = new EventEmitter()
 
 const timer = setInterval(() => {
-  k += 1
-  const key = 'globalVariable_' + k
-  global[key] = new Array(1000).fill(key)
-}, 5)
+  ee.on('eventName', () => {})
+})
 
 startAnalytics(memory)
 resetInterval(timer, 10000)
 stopAnalytics(15000)
+

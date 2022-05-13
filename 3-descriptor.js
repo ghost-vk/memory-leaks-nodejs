@@ -1,3 +1,4 @@
+const fs = require('fs')
 const {
   startAnalytics,
   resetInterval,
@@ -5,14 +6,18 @@ const {
 } = require('./helpers')
 
 const memory = []
-let k = 0
+
+let descriptor = 0
 
 const timer = setInterval(() => {
-  k += 1
-  const key = 'globalVariable_' + k
-  global[key] = new Array(1000).fill(key)
+  for (let i = 0; i < 3; i += 1) {
+    fs.open('3-descriptor.js', (err, fd) => {
+      descriptor = fd
+    })
+  }
 }, 5)
 
 startAnalytics(memory)
 resetInterval(timer, 10000)
 stopAnalytics(15000)
+

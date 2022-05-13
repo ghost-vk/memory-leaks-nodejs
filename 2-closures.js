@@ -5,14 +5,16 @@ const {
 } = require('./helpers')
 
 const memory = []
-let k = 0
+
+const recursiveClosure = (arr) => fn => recursiveClosure(arr.map(g => fn(g)))
+let f = recursiveClosure(new Array(1000).fill(x => x*2))
 
 const timer = setInterval(() => {
-  k += 1
-  const key = 'globalVariable_' + k
-  global[key] = new Array(1000).fill(key)
+  f = f(fn => x => fn(x) * 2)
 }, 5)
 
 startAnalytics(memory)
 resetInterval(timer, 10000)
 stopAnalytics(15000)
+
+
